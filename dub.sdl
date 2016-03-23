@@ -1,0 +1,6 @@
+name "libstemmerd"
+description "libstemmer biding for d programming language"
+copyright "Copyright © 2016, 2night.it"
+authors "Andrea Fontana"
+libs "stemmer"
+license "MIT License"
