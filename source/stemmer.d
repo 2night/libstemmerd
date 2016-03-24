@@ -6,13 +6,14 @@ struct Stemmer
    /// Return a list of valid algorithms you can use.
    static list()
    {
+      import core.stdc.string: strlen;
       string[] results;
       auto stemmers = sb_stemmer_list();
       
       size_t idx = 0;
       while(stemmers[idx] != null)
       {
-         results ~= stemmers[idx].to!string;
+         results ~= stemmers[idx][0..strlen(stemmers[idx])].dup;
          ++idx;
       }
       
@@ -25,7 +26,9 @@ struct Stemmer
    /// Stem a word using selected algorithm
    string stem(in string word) 
    { 
-      return to!string(cast(char*)(sb_stemmer_stem(_stemmer, cast(sb_symbol*)word.toStringz, to!int(word.length))));
+      char* result   = cast(char*)(sb_stemmer_stem(_stemmer, cast(sb_symbol*)word.toStringz, to!int(word.length)));
+      int len        = sb_stemmer_length(_stemmer);
+      return result[0..len].dup;
    }
    
    private sb_stemmer* _stemmer = null;
